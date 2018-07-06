@@ -19,14 +19,18 @@ const db = require('./db');
 // Use express' static middleware to server the HTML
 app.use(express.static('public'));
 
+const all = () => db.selectTemperatures();
+const one = () => db.selectTemperatures(1);
+
 // For now, simply report connection and echo latest temp
 wss.on('connection', ws => {
   ws.on('message', msg => {
-    console.log(`received ${msg}`);
-    db.selectTemperatures()
+    msg = JSON.parse(msg);
+    console.log(`received ${msg.req}`);
+    (msg.req === 'one' ? one() : all())
       .then(rows => {
         ws.send('you want stuffs?');
-        ws.send(JSON.stringify(rows[rows.length - 1]));
+        ws.send(JSON.stringify(rows));
       })
       .catch(console.log)
   });

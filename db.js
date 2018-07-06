@@ -3,7 +3,7 @@ require('dotenv').config();
 const sqlite = require('sqlite');
 const dbConnection = sqlite.open(process.env.DB_FILE, { Promise });
 
-function selectTemperatures(sensorNumber=0, dataPoints=60) {
+function selectTemperatures(dataPoints=60, sensorNumber=0) {
   console.log('getting temperatures');
   
   return dbConnection.then(db => {
