@@ -19,7 +19,7 @@ const db = require('./db');
 // Use express' static middleware to server the HTML
 app.use(express.static('public'));
 
-const all = () => db.selectTemperatures();
+const all = () => db.selectTemperatures(0);
 const one = () => db.selectTemperatures(1);
 
 // For now, simply report connection and echo latest temp

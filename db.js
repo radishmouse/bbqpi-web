@@ -5,6 +5,8 @@ const dbConnection = sqlite.open(process.env.DB_FILE, { Promise });
 
 function selectTemperatures(dataPoints=60, sensorNumber=0) {
   console.log('getting temperatures');
+
+  const limit = dataPoints === 0 ? '' : `limit ${dataPoints}`;
   
   return dbConnection.then(db => {
     return db.all(`
@@ -16,16 +18,19 @@ function selectTemperatures(dataPoints=60, sensorNumber=0) {
                 temps
             where
                 sensnum = ${sensorNumber}
-                and
-                timestamp >= (strftime('%s', 'now') - 3600)
             order by x desc
-            limit ${dataPoints}
+            ${limit}
           )
       order by x asc;`
     );
     
   });  
 }
+
+/*
+                and
+                timestamp >= (strftime('%s', 'now') - 3600)
+*/
 
 // selectTemperatures()
   // .then((rows) => {    
