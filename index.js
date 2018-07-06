@@ -26,7 +26,7 @@ wss.on('connection', ws => {
     db.selectTemperatures()
       .then(rows => {
         ws.send('you want stuffs?');
-        ws.send(JSON.stringify(rows[0]));
+        ws.send(JSON.stringify(rows[rows.length - 1]));
       })
       .catch(console.log)
   });
