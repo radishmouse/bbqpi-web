@@ -6,6 +6,7 @@ const dbConnection = sqlite.open(process.env.DB_FILE, { Promise });
 function selectTemperatures(dataPoints=60, sensorNumber=0) {
   console.log('getting temperatures');
 
+  // If they pass in 0 for datapoints, send them everything (no limit);
   const limit = dataPoints === 0 ? '' : `limit ${dataPoints}`;
   
   return dbConnection.then(db => {

@@ -18,10 +18,12 @@ const _msg = (kind) => JSON.stringify({"req": kind})
 const msgAll = _msg(ALL);
 const msgOne = _msg(ONE);
 
-
 ws.onopen = (e) => {
+
+  // Initially, get everything.
   ws.send(msgAll);    
 
+  // After that, get one reading at a time.
   heartbeat = setInterval(() => {
     ws.send(msgOne);    
   }, FREQ);

@@ -22,7 +22,7 @@ app.use(express.static('public'));
 const all = () => db.selectTemperatures(0);
 const one = () => db.selectTemperatures(1);
 
-// For now, simply report connection and echo latest temp
+// Over the websockets connection, send them all or one reading.
 wss.on('connection', ws => {
   ws.on('message', msg => {
     msg = JSON.parse(msg);
