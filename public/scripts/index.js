@@ -3,6 +3,9 @@ const ws = new WebSocket(`ws://` + location.host);
 let heartbeat;
 const FREQ = 15000;
 const SIZE = 500;
+const BAR = {
+  WIDTH: 1
+}
 
 const ALL = 'all';
 const ONE = 'one';
@@ -18,15 +21,17 @@ const svg = d3.select(`[data-output]`);
 
 const stage = svg.append('svg')
   .attr('height', SIZE)
-  .attr('width', SIZE)
+  .attr('width', SIZE * 2)
   .style('background', 'orange')
   .append('g')
 
+
+
 const render = () => {
   // console.log('doing and working and doing');
-  // let x = d3.scaleTime();
-  // x.domain(d3.extent(temperatureData, d => new Date(d.x)));
-  // x.range(d3.extent(temperatureData, d => d.y));
+  let x = d3.scaleTime();
+  x.domain(d3.extent(temperatureData, d => new Date(d.x)));
+  x.range(d3.extent(temperatureData, d => d.y));
 
   // let xAxis = d3.axisBottom(x).ticks(temperatureData.length)
   
@@ -35,9 +40,9 @@ const render = () => {
   let rects = stage.selectAll(`rect`).data(temperatureData);
 
   rects.enter().append(`rect`)
-    .attr('width', 5)
-    .attr('x', (d, i) => i * 6)
-    .attr('y', d => 100 - d.y)
+    .attr('width', BAR.WIDTH)
+    .attr('x', (d, i) => i * BAR.WIDTH * 2)
+    .attr('y', d => SIZE - d.y)
     .attr('height', d => d.y)
     .style('background', 'red')
 
